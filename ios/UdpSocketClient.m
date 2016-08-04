@@ -201,6 +201,12 @@ remoteAddress:(NSString *)address
   [_clientDelegate onData:self data:data host:host port:port];
 }
 
+- (void)udpSocketDidClose:(GCDAsyncUdpSocket *)sock withError:(NSError *)error
+{
+    if (!_clientDelegate) return;
+    [_clientDelegate onClose:self error:error.localizedDescription];
+}
+
 - (NSError *)badParamError:(NSString *)errMsg
 {
   NSDictionary *userInfo = [NSDictionary dictionaryWithObject:errMsg forKey:NSLocalizedDescriptionKey];
